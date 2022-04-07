@@ -11,11 +11,13 @@ class WeatherRepository {
   });
   
   Future<Weather> fetchWeather(String city) async{
+    print(city);
     try {
       final int woeid = await weatherApiServices.getWoeid(city);
       print(woeid);
 
       final Weather weather = await weatherApiServices.getWeather(woeid);
+      print(weather);
       return weather;
 
     } on WeatherException catch 
