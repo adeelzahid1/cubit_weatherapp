@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class CustomError extends Equatable {
   final String errMsg;
-  CustomError({required this.errMsg});
+  CustomError({this.errMsg = '',});
 
   @override
   bool get stringify => true;

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cubit_weatherapp/constants/constants.dart';
 import 'package:cubit_weatherapp/exception/weather_exception.dart';
 import 'package:cubit_weatherapp/models/weather.dart';
@@ -17,14 +16,14 @@ class WeatherApiServices{
       host: kHost,
       scheme: 'https',
       path: '/api/location/search/',
-      queryParameters: {'query': city} ,
+      queryParameters: {'query': city, } ,
     );
 
     try{
       final http.Response response = await http.get(uri);
       
       if(response.statusCode != 200){
-        throw Exception(httpErrorHandler(response));
+        throw Exception(httpErrorHandler(response));  
       }
       
       final responseBody = json.decode(response.body);

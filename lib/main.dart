@@ -1,5 +1,10 @@
+import 'package:cubit_weatherapp/cubits/weather/weather_cubit.dart';
 import 'package:cubit_weatherapp/pages/home_page.dart';
+import 'package:cubit_weatherapp/repositories/weather_repository.dart';
+import 'package:cubit_weatherapp/services/weather_api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +15,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Weather App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return RepositoryProvider(
+      create: (context) => WeatherRepository(
+        weatherApiServices: WeatherApiServices(httpClient: http.Client()),
       ),
-      home: HomePage(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<WeatherCubit>(create: (context) => WeatherCubit(weatherRepository: context.read<WeatherRepository>()),),
+        ],
+        child: MaterialApp(
+          title: 'Weather App',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: HomePage(),
+        ),
+      ),
     );
   }
 }
