@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:cubit_weatherapp/models/custom_error.dart';
 import 'package:cubit_weatherapp/models/weather.dart';
 import 'package:cubit_weatherapp/repositories/weather_repository.dart';
-import 'package:equatable/equatable.dart';
 
 part 'weather_state.dart';
 

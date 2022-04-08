@@ -1,6 +1,5 @@
-import 'package:equatable/equatable.dart';
 
-class Weather extends Equatable {
+class Weather {
 
   final String weatherStateName;
   final String weatherStateAbbr;
@@ -58,7 +57,7 @@ class Weather extends Equatable {
 
 
 
-  @override
+
   List<Object> get props {
     return [
       weatherStateName,
@@ -75,7 +74,7 @@ class Weather extends Equatable {
 
   
 
-  @override
+
   bool get stringify => true;
 
 }

@@ -1,6 +1,6 @@
 part of 'theme_cubit.dart';
 
-class ThemeState extends Equatable {
+class ThemeState  {
    final AppTheme appTheme;
   const ThemeState({this.appTheme = AppTheme.light});
 
@@ -8,7 +8,7 @@ factory ThemeState.initial(){
   return ThemeState();
 }
 
-  @override
+
   List<Object> get props => [appTheme];
 
   ThemeState copyWith({
@@ -19,7 +19,7 @@ factory ThemeState.initial(){
     );
   }
 
-  @override
+
   bool get stringify => true;
 }
 

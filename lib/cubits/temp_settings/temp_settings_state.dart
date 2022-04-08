@@ -1,6 +1,6 @@
 part of 'temp_settings_cubit.dart';
 
-class TempSettingsState extends Equatable {
+class TempSettingsState  {
   final TempUnit tempUnit;
   const TempSettingsState({this.tempUnit = TempUnit.celsius});
 
@@ -8,7 +8,7 @@ class TempSettingsState extends Equatable {
     return TempSettingsState();
   }
 
-  @override
+
   List<Object> get props => [tempUnit];
 
   
@@ -21,7 +21,7 @@ class TempSettingsState extends Equatable {
     );
   }
 
-    @override
+
   bool get stringify => true;
 }
 

@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cubit_weatherapp/constants/constants.dart';
 
-import 'package:equatable/equatable.dart';
 
 part 'theme_state.dart';
 

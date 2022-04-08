@@ -1,6 +1,6 @@
 part of 'weather_cubit.dart';
 
-class WeatherState extends Equatable {
+class WeatherState {
   final WeatherStatus status;
   final Weather weather;
   final CustomError error;
@@ -14,7 +14,7 @@ class WeatherState extends Equatable {
     return WeatherState(status: WeatherStatus.initial, weather: Weather.initial(), error: CustomError());
   }
 
-  @override
+
   List<Object> get props => [status, weather, error];
 
   WeatherState copyWith({
@@ -30,7 +30,7 @@ class WeatherState extends Equatable {
   }
 
 
-  @override
+
   bool get stringify => true;
 
 
