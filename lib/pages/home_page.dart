@@ -1,5 +1,7 @@
+import 'package:cubit_weatherapp/cubits/temp_settings/temp_settings_cubit.dart';
 import 'package:cubit_weatherapp/cubits/weather/weather_cubit.dart';
 import 'package:cubit_weatherapp/pages/search_page.dart';
+import 'package:cubit_weatherapp/pages/settings_page.dart';
 import 'package:cubit_weatherapp/widgets/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,8 +32,13 @@ class _HomePageState extends State<HomePage> {
                   context.read<WeatherCubit>().fetchWeather(_city!),
                 }
              },
-             icon: Icon(Icons.search),
-             )
+              icon: Icon(Icons.search),
+             ),
+
+             IconButton(
+               onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));},
+                icon: Icon(Icons.settings)
+                ),
         ],
       ),
       body: _showWeather(),
@@ -39,8 +46,12 @@ class _HomePageState extends State<HomePage> {
   }
 
  String showTemperature(double temperature){
+   final tempUnit = context.watch<TempSettingsCubit>().state.tempUnit;
+   if(tempUnit == TempUnit.fahrenheit){
+     return ((temperature * 9/5 ) +32).toStringAsFixed(2) + ' ℉';
+   };
     return temperature.toStringAsFixed(2) + '℃';
-  }// ℉ 
+  }
 
   Widget showIcon(String abbr) {
     return FadeInImage.assetNetwork(
