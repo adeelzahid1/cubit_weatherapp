@@ -1,11 +1,7 @@
-import 'package:cubit_weatherapp/models/weather.dart';
-import 'package:cubit_weatherapp/repositories/weather_repository.dart';
-import 'package:cubit_weatherapp/services/weather_api_service.dart';
 import 'package:cubit_weatherapp/cubits/weather/weather_cubit.dart';
+import 'package:cubit_weatherapp/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
-
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -15,30 +11,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-@override
-  void initState() {
-    super.initState();
-    _fetchWeather();
-  }
+  String? _city;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Weather'),
+        actions: [
+          IconButton(
+             onPressed: () async =>{
+               _city = await Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage())),
+                print(_city),
+                if(_city!=null){
+                  context.read<WeatherCubit>().fetchWeather(_city!),
+                }
+             },
+             icon: Icon(Icons.search),
+             )
+        ]
+      ),
+    );
   }
 
-  void _fetchWeather() {
-    context.read<WeatherCubit>().fetchWeather('london');
-  }
+
 }
-
-  // @override
-  // void initState() {
-  //   print("Api Calling ");
-  //   super.initState();
-  // _fetchWeather();
-  // }
-
-  // _fetchWeather(){
-  //   // WeatherRepository (weatherApiServices: WeatherApiServices(httpClient: http.Client())).fetchWeather('london');
-    
-  // }
