@@ -1,4 +1,5 @@
 import 'package:cubit_weatherapp/cubits/temp_settings/temp_settings_cubit.dart';
+import 'package:cubit_weatherapp/cubits/theme/theme_cubit.dart';
 import 'package:cubit_weatherapp/cubits/weather/weather_cubit.dart';
 import 'package:cubit_weatherapp/pages/home_page.dart';
 import 'package:cubit_weatherapp/repositories/weather_repository.dart';
@@ -22,17 +23,28 @@ class MyApp extends StatelessWidget {
       ),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<WeatherCubit>(create: (context) => WeatherCubit(weatherRepository: context.read<WeatherRepository>()),),
-          BlocProvider<TempSettingsCubit>(create: (context) => TempSettingsCubit()),
-        ],
-        
-        child: MaterialApp(
-          title: 'Weather App',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
+          BlocProvider<WeatherCubit>(
+            create: (context) => WeatherCubit(
+                weatherRepository: context.read<WeatherRepository>()),
           ),
-          home: HomePage(),
+          BlocProvider<TempSettingsCubit>(
+              create: (context) => TempSettingsCubit()),
+          BlocProvider<ThemeCubit>(
+            create: (context) =>
+                ThemeCubit(weatherCubit: context.read<WeatherCubit>()),
+          ),
+        ],
+        child: BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, state) {
+            return MaterialApp(
+              title: 'Weather App',
+              debugShowCheckedModeBanner: false,
+              theme: state.appTheme == AppTheme.light
+                  ? ThemeData.light()
+                  : ThemeData.dark(),
+              home: HomePage(),
+            );
+          },
         ),
       ),
     );
