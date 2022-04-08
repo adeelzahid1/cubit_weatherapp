@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void errorDialog(BuildContext context, String errorMessage) {
-  if (Platform.isAndroid) {
+  if (Platform.isIOS) {
     showCupertinoDialog(
         context: context,
         barrierDismissible: false,
