@@ -1,5 +1,6 @@
 import 'package:cubit_weatherapp/cubits/weather/weather_cubit.dart';
 import 'package:cubit_weatherapp/pages/search_page.dart';
+import 'package:cubit_weatherapp/widgets/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,10 +30,43 @@ class _HomePageState extends State<HomePage> {
              },
              icon: Icon(Icons.search),
              )
-        ]
+        ],
       ),
+      body: _showWeather(),
     );
   }
 
+
+  Widget _showWeather(){
+    return BlocConsumer<WeatherCubit, WeatherState>(
+       listener: (context, state) {
+         if(state.status == WeatherStatus.error){
+           errorDialog(context, state.error.errMsg);
+         }
+       } ,
+      builder: (context, state){
+        if(state.status == WeatherStatus.initial){
+          return Center(
+            child: Text('Select a City', style: TextStyle(fontSize: 20.0),),
+          );
+        }
+        if(state.status == WeatherStatus.loading){
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if(state.status == WeatherStatus.error){
+          return Center(
+            child: Text('Selct a City'),
+          );
+        }
+
+      return Center(
+        child: Text(state.weather.title, style: TextStyle(fontSize: 18.0),),
+      );
+      }
+       );
+  }
 
 }
