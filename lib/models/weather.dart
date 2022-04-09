@@ -1,13 +1,14 @@
+import 'dart:convert';
+import 'dart:ui';
 
 class Weather {
-
   final String weatherStateName;
   final String weatherStateAbbr;
   final String created;
   final double minTemp;
   final double maxTemp;
   final double theTemp;
-  final String title;
+  final String? title;
   final int woeid;
   final DateTime lastUpdated;
   Weather({
@@ -17,49 +18,92 @@ class Weather {
     required this.minTemp,
     required this.maxTemp,
     required this.theTemp,
-    required this.title,
+    this.title,
     required this.woeid,
     required this.lastUpdated,
   });
 
-
-
-  factory Weather.fromJson(Map<String, dynamic> json) {
-    final consolidatedWeather = json['consolidated_weather'][0];
-
+  Weather copyWith({
+    String? weatherStateName,
+    String? weatherStateAbbr,
+    String? created,
+    double? minTemp,
+    double? maxTemp,
+    double? theTemp,
+    String? title,
+    int? woeid,
+    DateTime? lastUpdated,
+  }) {
     return Weather(
-      weatherStateName: consolidatedWeather['weather_state_name'],
-      weatherStateAbbr: consolidatedWeather['weather_state_abbr'],
-      created: consolidatedWeather['created'],
-      minTemp: consolidatedWeather['min_temp'],
-      maxTemp: consolidatedWeather['max_temp'],
-      theTemp: consolidatedWeather['the_temp'],
-      title: json['title'],
-      woeid: json['woeid'],
-      lastUpdated: DateTime.now(),
+      weatherStateName: weatherStateName ?? this.weatherStateName,
+      weatherStateAbbr: weatherStateAbbr ?? this.weatherStateAbbr,
+      created: created ?? this.created,
+      minTemp: minTemp ?? this.minTemp,
+      maxTemp: maxTemp ?? this.maxTemp,
+      theTemp: theTemp ?? this.theTemp,
+      title: title ?? this.title,
+      woeid: woeid ?? this.woeid,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'weatherStateName': weatherStateName,
+      'weatherStateAbbr': weatherStateAbbr,
+      'created': created,
+      'minTemp': minTemp,
+      'maxTemp': maxTemp,
+      'theTemp': theTemp,
+      'title': title,
+      'woeid': woeid,
+      'lastUpdated': lastUpdated.millisecondsSinceEpoch,
+    };
+  }
 
+  factory Weather.fromMap(Map<String, dynamic> map) {
+    return Weather(
+      weatherStateName: map['weatherStateName'] ?? '',
+      weatherStateAbbr: map['weatherStateAbbr'] ?? '',
+      created: map['created'] ?? '',
+      minTemp: map['minTemp']?.toDouble() ?? 0.0,
+      maxTemp: map['maxTemp']?.toDouble() ?? 0.0,
+      theTemp: map['theTemp']?.toDouble() ?? 0.0,
+      title: map['title'],
+      woeid: map['woeid']?.toInt() ?? 0,
+      lastUpdated: DateTime.fromMillisecondsSinceEpoch(map['lastUpdated']),
+    );
+  }
 
-  factory Weather.initial() => Weather(
-        weatherStateName: '',
-        weatherStateAbbr: '',
-        created: '',
-        minTemp: 100.0,
-        maxTemp: 100.0,
-        theTemp: 100.0,
-        title: '',
-        woeid: -1,
-        lastUpdated: DateTime(1970),
-      );
+  String toJson() => json.encode(toMap());
 
+  factory Weather.fromJson(String source) =>
+      Weather.fromMap(json.decode(source));
 
+  @override
+  String toString() {
+    return 'Weather(weatherStateName: $weatherStateName, weatherStateAbbr: $weatherStateAbbr, created: $created, minTemp: $minTemp, maxTemp: $maxTemp, theTemp: $theTemp, title: $title, woeid: $woeid, lastUpdated: $lastUpdated)';
+  }
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
+    return other is Weather &&
+        other.weatherStateName == weatherStateName &&
+        other.weatherStateAbbr == weatherStateAbbr &&
+        other.created == created &&
+        other.minTemp == minTemp &&
+        other.maxTemp == maxTemp &&
+        other.theTemp == theTemp &&
+        other.title == title &&
+        other.woeid == woeid &&
+        other.lastUpdated == lastUpdated;
+  }
 
-  List<Object> get props {
-    return [
+  @override
+  int get hashCode {
+    return hashList([
       weatherStateName,
       weatherStateAbbr,
       created,
@@ -69,12 +113,6 @@ class Weather {
       title,
       woeid,
       lastUpdated,
-    ];
+    ]);
   }
-
-  
-
-
-  bool get stringify => true;
-
 }

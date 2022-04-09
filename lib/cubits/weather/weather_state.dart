@@ -10,10 +10,12 @@ class WeatherState {
     required this.error,
   });
 
-  factory WeatherState.initial(){
-    return WeatherState(status: WeatherStatus.initial, weather: Weather.initial(), error: CustomError());
+  factory WeatherState.initial() {
+    return WeatherState(
+        status: WeatherStatus.initial,
+        weather: Weather.initial(),
+        error: CustomError());
   }
-
 
   List<Object> get props => [status, weather, error];
 
@@ -29,11 +31,7 @@ class WeatherState {
     );
   }
 
-
-
   bool get stringify => true;
-
-
 }
 
 enum WeatherStatus { initial, loaded, loading, error }

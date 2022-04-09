@@ -17,36 +17,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => WeatherRepository(
-        weatherApiServices: WeatherApiServices(httpClient: http.Client()),
-      ),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<WeatherCubit>(
-            create: (context) => WeatherCubit(
-                weatherRepository: context.read<WeatherRepository>()),
-          ),
-          BlocProvider<TempSettingsCubit>(
-              create: (context) => TempSettingsCubit()),
-          BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
-        ],
-        child: BlocListener<WeatherCubit, WeatherState>(
-          listener: (context, state) {
-            context.read<ThemeCubit>().setTheme(state.weather.theTemp);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<WeatherCubit>(
+          create: (context) => WeatherCubit(),
+        ),
+        BlocProvider<TempSettingsCubit>(
+            create: (context) => TempSettingsCubit()),
+        BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
+      ],
+      child: BlocListener<WeatherCubit, WeatherState>(
+        listener: (context, state) {
+          context.read<ThemeCubit>().setTheme(state.weather.theTemp);
+        },
+        child: BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, state) {
+            return MaterialApp(
+              title: 'Weather App',
+              debugShowCheckedModeBanner: false,
+              theme: state.appTheme == AppTheme.light
+                  ? ThemeData.light()
+                  : ThemeData.dark(),
+              home: HomePage(),
+            );
           },
-          child: BlocBuilder<ThemeCubit, ThemeState>(
-            builder: (context, state) {
-              return MaterialApp(
-                title: 'Weather App',
-                debugShowCheckedModeBanner: false,
-                theme: state.appTheme == AppTheme.light
-                    ? ThemeData.light()
-                    : ThemeData.dark(),
-                home: HomePage(),
-              );
-            },
-          ),
         ),
       ),
     );

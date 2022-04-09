@@ -1,17 +1,14 @@
 part of 'temp_settings_cubit.dart';
 
-class TempSettingsState  {
+class TempSettingsState {
   final TempUnit tempUnit;
   const TempSettingsState({this.tempUnit = TempUnit.celsius});
 
-  factory TempSettingsState.initial(){
+  factory TempSettingsState.initial() {
     return TempSettingsState();
   }
 
-
   List<Object> get props => [tempUnit];
-
-  
 
   TempSettingsState copyWith({
     TempUnit? tempUnit,
@@ -21,12 +18,12 @@ class TempSettingsState  {
     );
   }
 
-
   bool get stringify => true;
 }
-
 
 enum TempUnit {
   celsius,
   fahrenheit,
 }
+
+// class WeatherFound extends WeatherState {}
